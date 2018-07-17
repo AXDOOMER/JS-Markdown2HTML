@@ -1,0 +1,53 @@
+<!-- ISC License
+
+Copyright (c) 2018 Alexandre-Xavier Labonté-Lamoureux
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. -->
+
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Test</title>
+	<body>
+		<div id="content">
+			Please wait while the page loads.<br/>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
+		<script type="text/javascript">
+			var conv = new showdown.Converter();
+			//var empty = document.getElementById('content').innerHTML;
+
+			// Customize with your own URL
+			var url = "https://raw.githubusercontent.com/AXDOOMER/doom-patcher/master/README.md";
+
+			var request = new XMLHttpRequest();
+			request.open("GET", url, true);
+			request.send(null);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+				    //var type = request.getResponseHeader("Content-Type");
+
+					var txt = request.responseText;
+					txt = conv.makeHtml(txt);
+
+					document.getElementById("content").innerHTML = txt;
+				} else {
+					var mess = "### There was an error while loading this web page. Please try again.\nCould not get the content from _" + url + "_";
+					var txt = conv.makeHtml(mess);
+					document.getElementById("content").innerHTML = txt;
+				}
+			}
+		</script>
+	</body>
+</html>
