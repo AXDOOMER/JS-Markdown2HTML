@@ -17,18 +17,24 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. -->
 <!DOCTYPE html>
 <html>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Test</title>
+	<title>My website</title>
 	<body>
 		<div id="content">
-			Please wait while the page loads.<br/>
+			Please wait while this page loads. This website requires JavaScript to work.
 		</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
 		<script type="text/javascript">
 			var conv = new showdown.Converter();
-			//var empty = document.getElementById('content').innerHTML;
 
-			// Customize with your own URL
-			var url = "https://raw.githubusercontent.com/AXDOOMER/doom-patcher/master/README.md";
+			// Set a default URL for the markdown
+			var url = "index.md";
+
+			// Detect what page to bring you to
+			var parameter = window.location.search.substr(1);
+			if (parameter) {
+				// Change the URL to be accessed
+				url = parameter;
+			}
 
 			var request = new XMLHttpRequest();
 			request.open("GET", url, true);
@@ -36,11 +42,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. -->
 
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
-				    //var type = request.getResponseHeader("Content-Type");
-
 					var txt = request.responseText;
 					txt = conv.makeHtml(txt);
-
 					document.getElementById("content").innerHTML = txt;
 				} else {
 					var mess = "### There was an error while loading this web page. Please try again.\nCould not get the content from _" + url + "_";
